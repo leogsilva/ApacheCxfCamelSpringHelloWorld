@@ -1,0 +1,4 @@
+
+
+This projects just demonstrates a simple integration example
+between Apache CXF and Apache CAMEL to publish and consume WebService endpoints
