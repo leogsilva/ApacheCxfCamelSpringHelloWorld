@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<wsdl:definitions name="HelloWorldService" 
+	targetNamespace="http://helloworldservice.devmedia.com.br/wsdl/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:tns="http://helloworldservice.devmedia.com.br/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:do="http://helloworldservice.devmedia.com.br/schema/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+	<wsdl:types>
+	 <xs:schema targetNamespace="http://helloworldservice.devmedia.com.br/schema/"
+	 	attributeFormDefault="unqualified" elementFormDefault="unqualified" 
+		xmlns:tns="http://helloworldservice.devmedia.com.br/schema/"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:element name="Nome" type="tns:Nome"/>
+		<xs:element name="Saudacao" type="tns:Saudacao" />
+		<xs:element name="Erro" type="tns:Erro"/>
+		<xs:complexType name="Nome">
+			<xs:sequence>
+				<xs:element name="conteudo" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+		<xs:complexType name="Saudacao">
+			<xs:sequence>
+				<xs:element name="conteudo" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+		<xs:complexType name="Erro">
+			<xs:sequence>
+				<xs:element name="conteudo" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	 </xs:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="DigaOlaRequisicao">
+		<wsdl:part name="parametro" type="do:Nome" />
+	</wsdl:message>
+	
+	<wsdl:message name="DigaOlaResposta">
+		<wsdl:part name="saudacao" type="do:Saudacao" /> 
+	</wsdl:message>
+	
+	<wsdl:message name="DigaOlaException">
+		<wsdl:part name="DigaOlaException" type="do:Erro" />
+	</wsdl:message>
+	
+	<wsdl:portType name="DigaOla_PortType">
+		<wsdl:documentation>
+			A operacao digaOla recebe um nome por parametro e devolve
+			um cumprimento ou erro em situacoes especificas
+		</wsdl:documentation>
+		<wsdl:operation name="digaOla">
+			<wsdl:input name="DigaOlaRequisicao" message="tns:DigaOlaRequisicao" />
+			<wsdl:output name="DigaOlaResposta" message="tns:DigaOlaResposta" />
+			<wsdl:fault name="DigaOlaException" message="tns:DigaOlaException" />
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="DigaOla_SoapBinding" type="tns:DigaOla_PortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="digaOla">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="DigaOlaRequisicao">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="DigaOlaResposta">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="DigaOlaException">
+				<soap:fault name="DigaOlaException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	
+	<wsdl:service name="HelloWorldService">
+		<wsdl:port name="HelloWorldService_Port" binding="tns:DigaOla_SoapBinding">
+			<soap:address location="http://www.devmedia.com.br/HelloWorldService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

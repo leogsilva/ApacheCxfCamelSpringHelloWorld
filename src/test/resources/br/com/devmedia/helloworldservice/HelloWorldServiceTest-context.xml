@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xsi:schemaLocation="
+    	http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+    	http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxws
+		http://cxf.apache.org/schemas/jaxws.xsd" >
+
+    <bean id="routeBuilder" class="br.com.devmedia.helloworldservice.HelloWorldContextBuilder"/>
+	<bean id="pojoHelloWorldService" class="br.com.devmedia.helloworldservice.PojoHelloWorldService" />
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <camel:routeBuilder ref="routeBuilder"/>
+    </camelContext>
+
+    <cxf:cxfEndpoint id="soapMessageEndpoint"
+                   serviceClass="br.com.devmedia.helloworldservice.wsdl.DigaOlaPortType"
+                   xmlns:s="http://helloworldservice.devmedia.com.br/wsdl/"
+                   address="http://localhost:9292/HelloWorldService"
+                   wsdlURL="HelloWorldService.wsdl"
+                   endpointName="s:HelloWorldService_Port"
+                   serviceName="s:HelloWorldService"
+                  >
+        
+    </cxf:cxfEndpoint>
+        
+</beans>
